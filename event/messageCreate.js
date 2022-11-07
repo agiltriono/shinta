@@ -38,8 +38,13 @@ module.exports = {
         const isBotMention = botmention.length === usermention.length && usermention === botmention;
         
         if (isBotMention && viewsend) {
-            await message.react("😤")
-            return message.reply("Apa sih ngetag ngetag aku 🔨").then(async m => {
+            const respond = [
+              "@Shayang",
+              "Idih Ngetag",
+              "Kalo kangen bilang",
+              "Apa sih aku cantik ya 🥰",
+            ]
+            return message.reply("Kangen Bilang kak.").then(async m => {
               await m.react("❤")
             });
         }
