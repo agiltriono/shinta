@@ -1,4 +1,4 @@
-const { database, embeds, ephemeral } = require(".././../util/util")
+const { database, embeds, ephemeral, color } = require(".././../util/util")
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client) {
   // voice > temp > userId
@@ -38,7 +38,7 @@ module.exports.execute = async function(interaction, client) {
       let region = channel.rtcRegion != null ? channel.rtcRegion : "Automatic"
       let content = {
        embeds : [{
-         color: "#f136f7",
+         color: color(),
          title: `Informasi Channel`,
          fields: [
           {name: "NAMA", value: `${channel.name}`},
