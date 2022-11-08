@@ -1,4 +1,5 @@
 const { database, timeconvert } = require("../util/util");
+const shuffle = require("../util/shuffle-array")
 const customHandler = require("../util/customHandler")
 const help = require("../includes/help");
 const db = database.ref("guild");
@@ -43,10 +44,9 @@ module.exports = {
               "Idih Ngetag",
               "Kalo kangen bilang",
               "Apa sih aku cantik ya 🥰",
+              "Kangen Bilang aja jangan maen tag. hih"
             ]
-            return message.reply("Kangen Bilang kak.").then(async m => {
-              await m.react("❤")
-            });
+            return message.reply(shuffle.pick(respond, {'picks': 1}))
         }
       }
       if (!message.content.startsWith(prefix)) return;
