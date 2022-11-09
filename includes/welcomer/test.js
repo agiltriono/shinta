@@ -1,5 +1,4 @@
-const { database, embeds, ephemeral, Welcomer, fdb } = require(".././../util/util")
-const { get, PUT } = require(".././../util/get")
+const { database, embeds, ephemeral, WelcomerCanvas } = require(".././../util/util")
 const { MessageButton } = require("discord.js")
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
@@ -13,16 +12,20 @@ module.exports.execute = async function(interaction, client, userId) {
     ]
   } 
   db.child(guild.id).once('value', async (server) => {
-    const wc = server.child("wc");
-    const embed = wc.child('embed');
-    const ch = wc.child('channel').val();
-    const enable = wc.child("enable").val()
-    const channel = interaction.guild.channels.cache.get(ch);
-    if (!channel) return interaction.editReply(Object.assign({},ephemeral("⚠️ Channel Belum di set!"),{components:[row]}));
-    if (embed.child("description").val() != interaction.message.embeds[0].description) return interaction.editReply(Object.assign({},ephemeral("⚠️ Harap klik **Save** terlebih dahulu."),{components:[row]}));
-    const { data } = await get.json(`${fdb}/guild/${member.guild.id}/wc/embed.json`)
-    const comer = new Welcomer(member, data)
-    const well = await comer.init()
+    const opt = server.child("wc");
+    const options = {
+      member: interaction.guild.members.cache.get(userId),
+      message: opt.child("message").val(),
+      borderColor: opt.child("borderColor").val(),
+      welcomeColor: opt.child("welcomeColor").val(),
+      nameColor: opt.child("nameColor").val(),
+      messageColor: opt.child("messageColor").val(),
+      description: opt.child("description").val(),
+      font: opt.child("font").val(),
+      background: opt.child("background").val()
+    }
+    const comer = new WelcomerCanvas(options)
+    const well = await comer.render()
     await interaction.editReply(Object.assign({},well, {components: [row]}))
   })
 }

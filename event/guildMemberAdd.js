@@ -1,16 +1,26 @@
-const { Welcomer } = require("../util/util");
+const { WelcomerCanvas } = require("../util/util");
 module.exports = {
   name : "guildMemberAdd",
   async execute(member, client) {
     client.db.child(member.guild.id).once('value', async (server) => {
-      const wc = server.child("wc");
-      const embed = wc.child('embed');
-      const ch = wc.child('channel').val();
-      const enable = wc.child("enable").val()
+      const opt = server.child("wc");
+      const ch = opt.child("channel").val()
+      const enable = opt.child("enable").val()
+      const options = {
+        member: member,
+        message: opt.child("message").val(),
+        borderColor: opt.child("borderColor").val(),
+        welcomeColor: opt.child("welcomeColor").val(),
+        nameColor: opt.child("nameColor").val(),
+        messageColor: opt.child("messageColor").val(),
+        description: opt.child("description").val(),
+        font: opt.child("font").val(),
+        background: opt.child("background").val()
+      }
       const channel = client.channels.cache.get(ch);
-      if (enable != "yes" || !channel || embed.numChildren() === 0) return;
-      const comer = new Welcomer(member, embed.val())
-      const well = await comer.init()
+      if (enable != "yes" || !channel || options.numChildren() === 0) return;
+      const comer = new WelcomerCanvas(options)
+      const well = await comer.render()
       await channel.send(well)
     })
   }

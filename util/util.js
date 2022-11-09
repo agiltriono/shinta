@@ -3,6 +3,7 @@ const path = require("path")
 const { get } = require("./get");
 const colorful = require("./color");
 const admin = require("firebase-admin");
+const Canvas = require("canvas")
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -114,6 +115,135 @@ exports.games = class games {
     this.game = name;
     this.guild = guild;
     this.started = started;
+  }
+}
+exports.WelcomerCanvas = class WelcomerCanvas {
+  constructor (options = {
+    member: null,
+    message: null,
+    borderColor: null,
+    welcomeColor: null,
+    titleColor: null,
+    nameColor: null,
+    messageColor: null,
+    description: null,
+    font: null,
+    background: null
+  }) {
+    this.member = options.member;
+    this.message = options.message;
+    this.borderColor = options.borderColor;
+    this.welcomeColor = options.welcomeColor;
+    this.nameColor = options.nameColor;
+    this.messageColor = options.messageColor;
+    this.description = options.description;
+    this.font = options.font;
+    this.background = options.background;
+  }
+  async relace (member, content) {
+    var object = content.split(' ')
+    var temp = [...object]
+    var memberMention = /^{member}/
+    var guildName = /^{server}/
+    var memberCount = /^{memberCount}/
+    for (let i = 0; i < object.length; i++) {
+      if (memberMention.test(object[i])) {
+        temp[i] = temp[i].replace(memberMention, `<@${member.user.id}>`)
+      }
+      if (guildName.test(object[i])) {
+        temp[i] = temp[i].replace(guildName, `${member.guild.name}`)
+      }
+      if (memberCount.test(object[i])) {
+        temp[i] = temp[i].replace(memberCount, `${member.guild.memberCount}`)
+      }
+    }
+    return temp.map(obj => obj).join(' ')
+  }
+  async render () {
+    var content = this.message != null ? await this.relace(this.member, this.message) : null;
+    var member = this.member;
+    // setting
+    var width = 1024;
+    var height = 500;
+    var welcomeColor = this.welcomeColor != null ? this.welcomeColor : "#fff"
+    var nameColor = this.nameColor != null ? this.nameColor : "#fff"
+    var messageColor = this.messageColor != null ? this.messageColor : "#fff"
+    var borderColor = this.borderColor != null ? this.borderColor : "#fff"
+    var font = this.font != null ? this.font : "Rubik"
+    var description = this.description != null ? this.description : "Have A Nice Day"
+    var userHeight = 440;
+    var cleft = width / 2
+    var cdown = 170
+    var base;
+    Canvas.registerFont(path.join(__dirname, '..','.','..', 'src', 'welcomer', 'font', `${font}.ttf`), { 
+      family: `${font}`,
+      weight: 'bold'
+    });
+    if (this.background == null) {
+      base = await Canvas.loadImage(path.join(__dirname, '..', '.', '..', 'src', 'welcomer', 'base.jpg'));
+    } else {
+      var userBase = await get.buffer(this.background);
+      base = await Canvas.loadImage(userBase.data)
+    }
+    
+    var avaURL = await get.buffer(member.user.displayAvatarURL({ format : 'jpg' }));
+    var avatar = await Canvas.loadImage(avaURL.data);
+    var canvas = Canvas.createCanvas(width, height);
+    var ctx = canvas.getContext('2d');
+    
+    ctx.drawImage(base, 0,0, width,height)
+    
+    ctx.beginPath();
+    ctx.fillStyle= borderColor
+    ctx.arc(cleft, cdown, 132, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.save();
+    ctx.globalAlpha = 0.9;
+    // circle 
+    ctx.beginPath();
+    ctx.arc(cleft, cdown, 125, 0, 2 * Math.PI);
+    ctx.fill();
+    // end circle
+    ctx.beginPath();
+    ctx.arc(cleft, cdown, 125, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.clip();
+    ctx.globalAlpha = 1;
+    ctx.drawImage(avatar, (cleft)-125, (cdown)-125/*55*/, 250, 250);
+    ctx.restore();
+    
+    ctx.fillStyle = welcomeColor;
+    ctx.textAlign = "center";
+    ctx.font = `bold 80px ${font}`;
+    ctx.shadowOffsetX = 3
+    ctx.shadowOffsetY = 4
+    ctx.shadowColor = "rgba(0,0,0,0.3)"
+    ctx.shadowBlur = 4
+    ctx.fillText("WELCOME", width / 2, 375, 400);
+    
+    var nameHeight = userHeight -25
+    var name = member.user.username+'#'+member.user.discriminator;
+    // Username
+    ctx.fillStyle = nameColor;
+    ctx.textAlign = "center";
+    ctx.font = `bold 40px ${font}`;
+    ctx.fillText(name.toUpperCase(), width / 2, nameHeight);
+    
+    // Ucapan
+    ctx.fillStyle = messageColor;
+    ctx.textAlign = "center";
+    ctx.font = `bold 30px ${font}`;
+    ctx.fillText(description.toUpperCase(), width / 2, (userHeight)+20, 450);
+    // End
+    const message = content != null ? content.replace(/\\n/g, '\n') : null
+    return {
+      content: `${message}`,
+      files: [{ 
+            attachment: canvas.toBuffer(), 
+            name: 'welcomer.png'
+      }]
+    }
   }
 }
 exports.Welcomer = class Welcomer {
