@@ -12,7 +12,7 @@ module.exports.execute = async function(interaction, client, userId) {
     await interaction.update({embeds:[{description: `✅ Font saat ini menggunakan 🔤**${value.includes("_") ? value.split(".")[0].replace("_"," ") : value.split(".")[0]}**`}],components:[]})
   } else {
     await interaction.deferReply({ephemeral:true})
-    const file = fs.readdirSync(path.join(__dirname, "..",".","..","src", " welcomer", "font")).filter(file=>file)
+    const file = fs.readdirSync(path.join(__dirname, "..",".","..","src", "welcomer", "font")).filter(file=>file)
     var option = file.map(c => {
         const name = c.includes("_") ? c.split(".")[0].replace("_", " ") : c.split(".")[0]
         return {label: name,value: c, emoji: "🔤"}
