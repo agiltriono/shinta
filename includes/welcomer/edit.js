@@ -6,7 +6,7 @@ module.exports.execute = async function(interaction, client, userId) {
   var row1 = {
     type: 1,
     components: [
-      new MessageButton().setCustomId('welcomer_button_content_'+userId).setEmoji("📝").setLabel("Deskripsi").setStyle('PRIMARY'),
+      new MessageButton().setCustomId('welcomer_button_content_'+userId).setEmoji("📝").setLabel("Content").setStyle('PRIMARY'),
       new MessageButton().setCustomId('welcomer_button_description_'+userId).setEmoji("🗒").setLabel("Deskripsi").setStyle('PRIMARY'),
       new MessageButton().setCustomId('welcomer_button_font_'+userId).setEmoji("🔤").setLabel("Font").setStyle('PRIMARY'),
       new MessageButton().setCustomId('welcomer_button_background_'+userId).setEmoji("🖼").setLabel("Background").setStyle('PRIMARY')

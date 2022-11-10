@@ -123,7 +123,6 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     message: null,
     borderColor: null,
     welcomeColor: null,
-    titleColor: null,
     nameColor: null,
     messageColor: null,
     description: null,
@@ -175,12 +174,12 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     var cleft = width / 2
     var cdown = 170
     var base;
-    Canvas.registerFont(path.join(__dirname, '..','.','..', 'src', 'welcomer', 'font', `${font}.ttf`), { 
+    Canvas.registerFont(path.join(__dirname, '..', 'src', 'welcomer', 'font', `${font}.ttf`), { 
       family: `${font}`,
       weight: 'bold'
     });
     if (this.background == null) {
-      base = await Canvas.loadImage(path.join(__dirname, '..', '.', '..', 'src', 'welcomer', 'base.jpg'));
+      base = await Canvas.loadImage(path.join(__dirname, '..', 'src', 'welcomer', 'base.jpg'));
     } else {
       var userBase = await get.buffer(this.background);
       base = await Canvas.loadImage(userBase.data)
