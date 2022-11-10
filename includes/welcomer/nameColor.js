@@ -1,5 +1,5 @@
 const { MessageActionRow, Modal, TextInputComponent } = require("discord.js")
-const { database, clear, rich, ephemeral,embeds, remove, color } = require(".././../util/util");
+const { database, ephemeral } = require(".././../util/util");
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
   if (interaction.customId.includes("welcomer_modal_")) {

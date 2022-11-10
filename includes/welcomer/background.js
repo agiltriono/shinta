@@ -1,6 +1,5 @@
-// https://cloud.githubusercontent.com/assets/414918/11165708/fbeb5164-8b0e-11e5-893d-9d0e91cb3d32.png
 const { MessageActionRow, Modal, TextInputComponent } = require("discord.js")
-const { database, clear, rich, embeds, remove, color } = require(".././../util/util");
+const { database, ephemeral } = require(".././../util/util");
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
   if (interaction.customId.includes("welcomer_modal_")) {
