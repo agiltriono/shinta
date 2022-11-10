@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageSelectMenu } = require("discord.js");
+const fs = require("fs")
 const { database, color } = require(".././../util/util");
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
@@ -7,7 +8,7 @@ module.exports.execute = async function(interaction, client, userId) {
   if (interaction.customId.includes("welcomer_selectmenu_")) {
     const value = interaction.values[0]
     await db.child(guild.id).child("wc").update({ font : value })
-    await interaction.update({embeds:[{description: `✅ Font saat ini menggunakan 🔤**${value.includes("_") ? value.split("_") : value}**`}],components:[]})
+    await interaction.update({embeds:[{description: `✅ Font saat ini menggunakan 🔤**${value.includes("_") ? value.split(".")[0].replace("_"," ") : value.split(".")[0]}**`}],components:[]})
   } else {
     await interaction.deferReply({ephemeral:true})
     const file = fs.readdirSync(".././../src/welcomer/font").filter(file=>file)

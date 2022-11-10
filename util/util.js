@@ -168,13 +168,13 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     var nameColor = this.nameColor != null ? this.nameColor : "#fff"
     var messageColor = this.messageColor != null ? this.messageColor : "#fff"
     var borderColor = this.borderColor != null ? this.borderColor : "#fff"
-    var font = this.font != null ? this.font : "Rubik"
+    var font = this.font != null ? this.font : "Rubik.ttf"
     var description = this.description != null ? this.description : "Have A Nice Day"
     var userHeight = 440;
     var cleft = width / 2
     var cdown = 170
     var base;
-    Canvas.registerFont(path.join(__dirname, '..', 'src', 'welcomer', 'font', `${font}.ttf`), { 
+    Canvas.registerFont(path.join(__dirname, '..', 'src', 'welcomer', 'font', `${font}`), { 
       family: `${font}`,
       weight: 'bold'
     });
