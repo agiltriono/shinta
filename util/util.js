@@ -235,13 +235,21 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     ctx.font = `bold 30px ${font}`;
     ctx.fillText(description.toUpperCase(), width / 2, (userHeight)+20, 450);
     // End
-    const message = content != null ? content.replace(/\\n/g, '\n') : null
-    return {
-      content: `${message}`,
-      files: [{ 
-            attachment: canvas.toBuffer(), 
-            name: 'welcomer.png'
-      }]
+    if (content != null) {
+      return {
+        content: `${content.replace(/\\n/g, '\n')}`,
+        files: [{ 
+              attachment: canvas.toBuffer(), 
+              name: 'welcomer.png'
+        }]
+      }
+    } else {
+      return {
+        files: [{ 
+              attachment: canvas.toBuffer(), 
+              name: 'welcomer.png'
+        }]
+      }
     }
   }
 }
