@@ -18,7 +18,7 @@ module.exports = {
         background: opt.child("background").val()
       }
       const channel = client.channels.cache.get(ch);
-      if (enable != "yes" || !channel || options.numChildren() === 0) return;
+      if (enable != "yes" || !channel) return;
       const comer = new WelcomerCanvas(options)
       const well = await comer.render()
       await channel.send(well)
