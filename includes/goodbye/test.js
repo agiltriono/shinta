@@ -1,5 +1,4 @@
-const { database, embeds, ephemeral, Welcomer, fdb } = require(".././../util/util")
-const { get, PUT } = require(".././../util/get")
+const { database, embeds, ephemeral, Welcomer } = require(".././../util/util")
 const { MessageButton } = require("discord.js")
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
@@ -13,16 +12,16 @@ module.exports.execute = async function(interaction, client, userId) {
     ]
   } 
   db.child(guild.id).once('value', async (server) => {
-    const gb = server.child("gb");
-    const embed = gb.child('embed');
-    const ch = gb.child('channel').val();
-    const enable = gb.child("enable").val()
-    const channel = interaction.guild.channels.cache.get(ch);
-    if (!channel) return interaction.editReply(Object.assign({},ephemeral("⚠️ Channel Belum di set!"),{components:[row]}));
-    if (embed.child("description").val() != interaction.message.embeds[0].description) return interaction.editReply(Object.assign({},ephemeral("⚠️ Harap klik **Save** terlebih dahulu."),{components:[row]}));
-    const { data } = await get.json(`${fdb}/guild/${member.guild.id}/gb/embed.json`)
-    const comer = new Welcomer(member, data)
-    const well = await comer.init()
+    const wc = server.child("gb");
+    const msg = wc.child('m');
+    if (!msg.exists()) return interaction.editReply(Object.assign({},ephemeral("⚠️ Save terlebih dahulu!"),{components:[row]}));
+    const options = {
+      member: member,
+      content: msg.child("content").val(),
+      embeds: msg.child("embeds").val()
+    }
+    const comer = new Welcomer(options)
+    const well = await comer.render()
     await interaction.editReply(Object.assign({},well, {components: [row]}))
   })
 }

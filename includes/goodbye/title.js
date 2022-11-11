@@ -1,10 +1,10 @@
 const { MessageActionRow, Modal, TextInputComponent } = require("discord.js")
-const { clear, rich, embeds, remove, color } = require(".././../util/util");
+const { rich } = require(".././../util/util");
 module.exports.execute = async function(interaction, client, userId) {
   if (interaction.customId.includes("goodbye_modal_")) {
     const field = interaction.fields
     const value = field.getTextInputValue('goodbye_modal_title_input');
-    const content = rich(interaction.message.embeds[0], { title: value })
+    const content = rich(interaction.message.embeds, { title: value })
     await interaction.update({ embeds: [content] })
   } else {
     const modal = new Modal()
@@ -16,7 +16,7 @@ module.exports.execute = async function(interaction, client, userId) {
             .setCustomId('goodbye_modal_title_input')
             .setLabel('Judul :')
             .setStyle('SHORT')
-            .setPlaceholder('Goodbye From Imut Server')
+            .setPlaceholder('Selamat Tinggal')
             .setRequired(true)
         )
       ]);

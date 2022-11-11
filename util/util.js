@@ -254,15 +254,14 @@ exports.WelcomerCanvas = class WelcomerCanvas {
   }
 }
 exports.Welcomer = class Welcomer {
-  constructor (member, content, client) {
-    this.client = client
-    this.member = member;
-    this.embed = content;
-    this.content = content.description
-  }
-  async init () {
-    let msg = await this.render()
-    return msg
+  constructor (options = {
+    member: null,
+    content: null,
+    embeds : null
+  }) {
+    this.member = options.member;
+    this.embeds = options.embeds;
+    this.content = options.content;
   }
   async relace (member, content) {
     var object = content.split(' ')
@@ -284,9 +283,15 @@ exports.Welcomer = class Welcomer {
     return temp.map(obj => obj).join(' ')
   }
   async render () {
-    var msg = await this.relace(this.member, this.content);
-    var description = msg.replace(/\\n/g, '\n')
-    return { embeds: [Object.assign({}, this.embed, { description: description })]}
+    var content = this.content != null ? await this.relace(this.member, this.content) : null;
+    var description = this.embeds != null ? this.embeds.hasOwnProperty("description") ? await this.relace(this.member, this.embeds.description) : null : null;
+    if (content != null && description != null && this.embeds != null) {
+      return { content: content.replace(/\\n/g, '\n'), embeds: [Object.assign({}, this.embeds, { description: description.replace(/\\n/g, '\n') })]}
+    } else if (content === null && description != null && this.embeds != null) {
+      return { embeds: [Object.assign({}, this.embeds, { description: description.replace(/\\n/g, '\n') })]}
+    } else if (this.embeds === null && description === null && content != null) {
+      return { content: content.replace(/\\n/g, '\n') }
+    }
   }
 }
 exports.rich = function (e, n) {
