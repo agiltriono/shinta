@@ -2,6 +2,7 @@ const { MessageActionRow, Modal, TextInputComponent } = require("discord.js")
 const { database, ephemeral } = require(".././../util/util");
 const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
+  const guild = interaction.guild
   if (interaction.customId.includes("welcomer_modal_")) {
     const field = interaction.fields
     const value = field.getTextInputValue('welcomer_modal_background_input');
