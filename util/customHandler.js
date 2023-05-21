@@ -12,7 +12,7 @@ module.exports = async function customHandler(msg, auto) {
   const content = cc.content
   const embed = cc.embed
   //const reaction = cc.reaction
-  //const channel = trigger.child("channel").val()
+  //const channel = cc.channel
   if(!content || !embed || !type) return;
   if (type == "content") {
     return msg.channel.send(content)

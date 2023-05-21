@@ -79,7 +79,7 @@ module.exports.execute = async function(interaction, client, userId, args) {
         cc[cc.findIndex(c=>c.name === commandName)].wildcard = "no"
         await db.child(guild.id).update({cc:cc})
         await interaction.update({components: [row1,row2,row3]})
-        await interaction.message.reply(Object.assign({},embeds(`❎ Wildcard ${commandName} dimatikan.`), {components: [dismis]}))
+        await interaction.message.reply(Object.assign({},embeds(`❎ Wildcard **${commandName}** dimatikan.`), {components: [dismis]}))
       } else {
         cc[cc.findIndex(c=>c.name === commandName)].wildcard = "yes"
         await db.child(guild.id).update({cc:cc})
