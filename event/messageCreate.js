@@ -32,7 +32,7 @@ module.exports = {
         let phrase = message.content.replace(/\n/g, ' ')
         let index = [...cc.val()]
         var checkisvc = (arr) => {
-          let isvc_enabled = arr.channel.includes(message.channelId) && arr.allow_vc === "yes" && vc.child("temp").child(message.channelId).exists();
+          let isvc_enabled = vc.child("temp").child(message.channelId).exists() && arr.allow_vc === "yes";
           let isvc_disabled = arr.channel.includes(message.channelId) && arr.allow_vc === "no";
           if (isvc_enabled || isvc_disabled) {
             return 1;
