@@ -1,7 +1,6 @@
 const { MessageActionRow, MessageSelectMenu, MessageButton } = require("discord.js");
-const { database, embeds, ephemeral, color, clear } = require(".././../util/util")
-const { getServerBitrate } = require(".././../util/perk")
-const db = database.ref("guild")
+const { embeds, ephemeral, color, clear } = require(".././../util/util");
+const { getServerBitrate } = require(".././../util/perk");
 module.exports.execute = async function(interaction, client) {
   await interaction.deferUpdate()
     // voice > game > channel
@@ -11,6 +10,11 @@ module.exports.execute = async function(interaction, client) {
   const member = guild.members.cache.get(interaction.user.id);
   const voiceChannel = member.voice.channel;
   const msg = interaction.message
+  const db = await client.db.get(guild.id)
+  const vc = db.voice
+  const game = vc.game[voiceChannel.id]
+  const creator = vc.game_creator
+  const category = vc.game_category
   const pcGames = [
       {label: "Dota", value: "Dota_5",description:"Channel Limit 5 Member."},
       {label: "Apex Legend", value: "Apex Legend_5",description:"Channel Limit 3 Member."},
@@ -57,44 +61,38 @@ module.exports.execute = async function(interaction, client) {
       .addOptions(mGames))
   await msg.edit({components: [row1,row2,button]})
   if (!voiceChannel) return msg.reply(embeds(`⚠️ <@${member.user.id}> **Join voice terlebih dahulu.**`)).then(m=> clear(m, 2000));
-  db.child(guild.id).once("value", async(s) => {
-    const vc = s.child("voice")
-    const creator = vc.child("game_creator").val()
-    const category = vc.child("game_category").val()
-    const game = vc.child("game").child(voiceChannel.id)
-    const owner = game.child("owner").val()
-    const param = interaction.values[0].split("_")
-    const judul = param[0]
-    const limit = parseInt(param[1])
-    const main = guild.channels.cache.get(creator)
-    if(voiceChannel.id != creator && !game.exists()) return msg.reply(embeds(`⚠️ <@${member.user.id}> kakak harus join dulu di **${main.name}**`)).then(m=> clear(m, 2000));
-    if(voiceChannel.id != creator && game.exists() && owner === member.user.id) return msg.reply(embeds(`⚠️ <@${member.user.id}> kakak gak bisa ganti gaming channel!`)).then(m=> clear(m, 2000));
-    if(voiceChannel.id != creator && game.exists() && owner != member.user.id) return msg.reply(embeds(`⚠️ Akses ditolak <@${member.user.id}> kakak bukan owner!`)).then(m=> clear(m, 2000));
-    // Create Channel
-    const channel = await guild.channels.create(
-        `🎮🔸${judul}`,
-        {
-          type: 'GUILD_VOICE', 
-          parent: category
-        }
-    );
-    await channel.setUserLimit(limit)
-    await channel.permissionOverwrites.set(main.permissionOverwrites.cache)
-    await channel.permissionOverwrites.create(member.user.id, {
-      "SEND_MESSAGES": true,
-      "READ_MESSAGE_HISTORY": true,
-      "ADD_REACTIONS": true,
-      "EMBED_LINKS": true,
-      "ATTACH_FILES": true,
-      "USE_EXTERNAL_EMOJIS": true,
-      "USE_APPLICATION_COMMANDS": true,
-      "SEND_TTS_MESSAGES": true
-    })
-    // Add the channel id to the array of temporary channel ids.
-    await db.child(guild.id).child("voice").child('game').child(channel.id).update({owner: member.user.id})
-    // Move the member to the new channel.
-    await member.voice.setChannel(channel);
-    
-    await msg.reply(embeds(`☑️ Gaming Voice <#${channel.id}> untuk <@${member.user.id}> di buat.`)).then(m=> clear(m, 2000));
+  const owner = game.child("owner").val()
+  const param = interaction.values[0].split("_")
+  const judul = param[0]
+  const limit = parseInt(param[1])
+  const main = guild.channels.cache.get(creator)
+  if(voiceChannel.id != creator && !game.exists()) return msg.reply(embeds(`⚠️ <@${member.user.id}> kakak harus join dulu di **${main.name}**`)).then(m=> clear(m, 2000));
+  if(voiceChannel.id != creator && game.exists() && owner === member.user.id) return msg.reply(embeds(`⚠️ <@${member.user.id}> kakak gak bisa ganti gaming channel!`)).then(m=> clear(m, 2000));
+  if(voiceChannel.id != creator && game.exists() && owner != member.user.id) return msg.reply(embeds(`⚠️ Akses ditolak <@${member.user.id}> kakak bukan owner!`)).then(m=> clear(m, 2000));
+  // Create Channel
+  const channel = await guild.channels.create(
+      `🎮🔸${judul}`,
+      {
+        type: 'GUILD_VOICE', 
+        parent: category
+      }
+  );
+  await channel.setUserLimit(limit)
+  await channel.permissionOverwrites.set(main.permissionOverwrites.cache)
+  await channel.permissionOverwrites.create(member.user.id, {
+    "SEND_MESSAGES": true,
+    "READ_MESSAGE_HISTORY": true,
+    "ADD_REACTIONS": true,
+    "EMBED_LINKS": true,
+    "ATTACH_FILES": true,
+    "USE_EXTERNAL_EMOJIS": true,
+    "USE_APPLICATION_COMMANDS": true,
+    "SEND_TTS_MESSAGES": true
   })
+  // Add the channel id to the array of temporary channel ids.
+  await client.db.update([guild.id, "voice", "game", channel.id], {owner: member.user.id})
+  // Move the member to the new channel.
+  await member.voice.setChannel(channel);
+  
+  await msg.reply(embeds(`☑️ Gaming Voice <#${channel.id}> untuk <@${member.user.id}> di buat.`)).then(m=> clear(m, 2000));
 }

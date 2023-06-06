@@ -1,5 +1,3 @@
-const { fdb } = require("./util")
-const { get } = require("./get")
 /*[name] {
   trigger: "",
   type : "",
@@ -16,7 +14,7 @@ module.exports = async function customHandler(msg, auto) {
   if(!content || !embed || !type) return;
   if (type == "content") {
     return msg.channel.send(content)
-  } else if (type == "embed") {
+  } else if (type == "embeds") {
     return msg.channel.send({embeds: [embed]})
   } if (type == "reaction") {
     // todo Reaction response

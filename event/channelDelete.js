@@ -1,19 +1,15 @@
-const fs = require("fs");
-const path = require("path");
-const { database } = require("../util/util")
-const db = database.ref("guild")
 module.exports = {
   name : "channelDelete",
   async execute(channel, client) {
-    if (channel.type != "GUILD_VOICE") return;
     const channelId = channel.id
     const guild = channel.guild
-    db.child(guild.id).once("value", async (temp) => {
-      const vc = temp.child("voice").child("temp").child(channelId)
-      const game = temp.child("voice").child("game").child(channelId)
-      if(vc.exists()) await db.child(guild.id).child("voice").child("temp").child(channelId).remove();
-      if(game.exists()) await db.child(guild.id).child("voice").child("game").child(channelId).remove();
-      return;
-    })
+    const db = await client.db.get(guild.id);
+    const me = guild.members.cache.get(client.user.id);
+    const vc = db.voice.temp[channelId]
+    const game = db.voice.game[channelId]
+    if (channel.type === "GUILD_VOICE" || channel.type === "GUILD_STAGE_VOICE") {
+      if(vc) return await client.db.delete([guild.id, "voice", "temp", channelId]);
+      if(game) return await client.db.delete([guild.id, "voice", "game", channelId]);
+    }
   }
 }

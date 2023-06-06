@@ -2,17 +2,8 @@ require('dotenv').config();
 const path = require("path")
 const { get } = require("./get");
 const colorful = require("./color");
-const admin = require("firebase-admin");
-const Canvas = require("canvas")
+const Canvas = require("canvas");
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-  "project_id": process.env.FIREBASE_PROJECT_ID,
-  "private_key": process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  "client_email": process.env.FIREBASE_CLIENT_EMAIL
-}),
-  databaseURL: process.env.FIREBASE_DATABASEURL
-})
 exports.getrole = function (event, name) {
   return event.roles.cache.find(r => r.name.toLowerCase() === name.toLowerCase())
 }
@@ -129,15 +120,15 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     font: null,
     background: null
   }) {
-    this.member = options.member;
-    this.message = options.message;
-    this.borderColor = options.borderColor;
-    this.welcomeColor = options.welcomeColor;
-    this.nameColor = options.nameColor;
-    this.messageColor = options.messageColor;
-    this.description = options.description;
-    this.font = options.font;
-    this.background = options.background;
+    this.member = options.member || null;
+    this.message = options.message  || null;
+    this.borderColor = options.borderColor  || null;
+    this.welcomeColor = options.welcomeColor  || null;
+    this.nameColor = options.nameColor || null;
+    this.messageColor = options.messageColor || null;
+    this.description = options.description || null;
+    this.font = options.font || null;
+    this.background = options.background || null;
   }
   async relace (member, content) {
     var object = content.split(' ')
@@ -235,7 +226,7 @@ exports.WelcomerCanvas = class WelcomerCanvas {
     ctx.font = `bold 30px ${font}`;
     ctx.fillText(description.toUpperCase(), width / 2, (userHeight)+20, 450);
     // End
-    if (content != null) {
+    if (content) {
       return {
         content: `${content.replace(/\\n/g, '\n')}`,
         files: [{ 
@@ -261,7 +252,7 @@ exports.Welcomer = class Welcomer {
   }) {
     this.member = options.member;
     this.embeds = options.embeds;
-    this.content = options.content;
+    this.content = options.content || null;
   }
   async relace (member, content) {
     var object = content.split(' ')
@@ -280,18 +271,22 @@ exports.Welcomer = class Welcomer {
         temp[i] = temp[i].replace(memberCount, `${member.guild.memberCount}`)
       }
     }
-    return temp.map(obj => obj).join(' ')
+    return temp.map(obj => obj).join(' ').replace(/\\n/g, '\n')
   }
   async render () {
-    var content = this.content != null ? await this.relace(this.member, this.content) : null;
-    var description = this.embeds != null ? this.embeds.hasOwnProperty("description") ? await this.relace(this.member, this.embeds.description) : null : null;
-    if (content != null && description != null && this.embeds != null) {
-      return { content: content.replace(/\\n/g, '\n'), embeds: [Object.assign({}, this.embeds, { description: description.replace(/\\n/g, '\n') })]}
-    } else if (content === null && description != null && this.embeds != null) {
-      return { embeds: [Object.assign({}, this.embeds, { description: description.replace(/\\n/g, '\n') })]}
-    } else if (this.embeds === null && description === null && content != null) {
-      return { content: content.replace(/\\n/g, '\n') }
+    var json = {}
+    if (this.content != null) {
+      json.content = await this.relace(this.member, this.content);
     }
+    if (this.embeds.length) {
+      json.embeds = this.embeds
+      if (this.embeds[0].hasOwnProperty("description")) {
+        let description = await this.relace(this.member, this.embeds[0].description)
+        json.embeds = [Object.assign({}, this.embeds[0], { description : description })]
+      }
+    }
+    if (Object.keys(json).length === 0) return;
+    return json;
   }
 }
 exports.rich = function (e, n) {
@@ -315,11 +310,8 @@ exports.color = function (c) {
   return colorful()
 }
 
-
-exports.database = admin.database();
 exports.DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 exports.get = get;
-exports.fdb = process.env.FIREBASE_DATABASEURL;
 exports.SUPPORT_LINK = process.env.SUPPORT_LINK;
 exports.PREFIX = process.env.client_prefix;
 exports.dev_id = process.env.dev_id;

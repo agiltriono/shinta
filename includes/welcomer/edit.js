@@ -1,8 +1,6 @@
-const {  database, ephemeral } = require(".././../util/util")
 const { MessageButton } = require("discord.js");
-const db = database.ref("guild");
 module.exports.execute = async function(interaction, client, userId) {
-  const guild = interaction.guild
+  // const guild = interaction.guild
   var row1 = {
     type: 1,
     components: [

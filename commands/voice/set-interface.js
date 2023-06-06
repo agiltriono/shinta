@@ -1,5 +1,4 @@
-const { database, embeds, getmsg, clear, remove, color } = require(".././../util/util"); 
-const db = database.ref("guild");
+const { embeds, getmsg, clear, remove, color } = require(".././../util/util");
 const { MessageButton } = require("discord.js");
 
 module.exports.help = {
@@ -96,7 +95,7 @@ module.exports.run = async function(msg, args, creator, prefix) {
     let mention = args[0]
     let channel = msg.guild.channels.cache.get(mention)
     if(!channel) return msg.reply(embeds("❌ Channel tidak ditemukan!"));
-    if (channel.type != "GUILD_TEXT") return msg.channel.send(embeds("❌ Channel bukan *Text Channel*"));
+    if (channel.type != "GUILD_TEXT") return msg.reply(embeds("❌ Channel bukan *Text Channel*"));
     await channel.send(contents)
     await msg.channel.send(embeds(`✅ Interface berhasil di buat pada <#${channel.id}>`))
   } else if (args[0] != undefined && args[0].toLowerCase() === "help") {

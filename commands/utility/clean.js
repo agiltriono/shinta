@@ -20,7 +20,7 @@ module.exports.run = async (msg, args, creator, client, prefix) => {
   if (!msg.guild.me.permissions.has("SEND_MESSAGES")) return msg.channel.send(embeds("❌ Aku butuh permissions `SEND_MESSAGES`")).then(m=> clear(m, 3000));
   if (!args.length) return msg.channel.send(embeds(`❌  Masukan di butuhkan!\n**Contoh: ${prefix}${clean} 1-100|all**`)).then(m => clear(m, 2000))
   const number = /^[1-9][0-9]?$|^100$/;
-  const character = /[a-zA-Z]+/;
+  // const character = /[a-zA-Z]+/;
   const message = await msg.channel.messages.fetch()
   if (args[0].toLowerCase() === "all") {
     if (message.size == 0) return msg.channel.send(embeds("❌ Gak ada chat untuk di hapus!")).then(m=>clear(m,3000));

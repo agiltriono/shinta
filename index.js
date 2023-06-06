@@ -1,7 +1,8 @@
 const { Client, Intents, Collection } = require("discord.js");
 const Discord = require("discord.js");
-const http = require("http")
-const { DISCORD_TOKEN, numformat, timeconvert, genId, database, PREFIX } = require("./util/util");
+const http = require("http");
+const database = require("./util/database");
+const { DISCORD_TOKEN, numformat, timeconvert, genId, PREFIX } = require("./util/util");
 const client = new Client({ intents : [
   "GUILDS",
   "GUILD_BANS",
@@ -18,15 +19,16 @@ const client = new Client({ intents : [
   ],
   partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
+
 const fs = require("fs");
 client.discord = Discord;
 client.genId = genId;
 client.numformat = numformat;
 client.timeconvert = timeconvert;
-client.db = database.ref("guild");
+client.db = database;
 client.prefix = PREFIX;
-client.commands = new client.discord.Collection();
-client.aliases = new client.discord.Collection();
+client.commands = new Collection();
+client.aliases = new Collection();
 client.login(DISCORD_TOKEN);
 
 http.createServer(function (req, res) {

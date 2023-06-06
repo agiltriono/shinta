@@ -1,14 +1,12 @@
 const { MessageActionRow, MessageSelectMenu } = require("discord.js");
 const fs = require("fs")
 const path = require("path")
-const { database, color } = require(".././../util/util");
-const db = database.ref("guild")
 module.exports.execute = async function(interaction, client, userId) {
   const guild = interaction.guild
-  const member = interaction.guild.members.cache.get(interaction.user.id)
+  // const member = interaction.guild.members.cache.get(interaction.user.id)
   if (interaction.customId.includes("welcomer_selectmenu_")) {
     const value = interaction.values[0]
-    await db.child(guild.id).child("wc").update({ font : value })
+    await client.db.update([guild.id, "wc"], { font : value })
     await interaction.update({embeds:[{description: `✅ Font saat ini menggunakan 🔤**${value.includes("_") ? value.split(".")[0].replace("_"," ") : value.split(".")[0]}**`}],components:[]})
   } else {
     await interaction.deferReply({ephemeral:true})

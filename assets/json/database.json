@@ -1,0 +1,117 @@
+{
+  "1030568935281672192": {
+    "bc": "",
+    "cc": [],
+    "gb": {
+      "channel": "1030568936577716254",
+      "enable": false,
+      "m": {
+        "content": "Selamat Tinggal {member}"
+      }
+    },
+    "voice": {
+      "creator": "1048530996137562164",
+      "game_category": "1039087658481229864",
+      "game_creator": "1039087662256115722",
+      "game_interface": "1039087660163145749",
+      "temp": {},
+      "game": {}
+    },
+    "wc": {
+      "borderColor": "#fff",
+      "channel": "1039485680872587315",
+      "description": "Have A Nice Day",
+      "enable": false,
+      "font": "Uni_Sans.ttf",
+      "message": "𝙨𝙚𝙡𝙖𝙢𝙖𝙩 𝙙𝙖𝙩𝙖𝙣𝙜 {member}, 𝙖𝙣𝙙𝙖 𝙖𝙙𝙖𝙡𝙖𝙝 𝙢𝙚𝙢𝙗𝙚𝙧 𝙮𝙜 𝙠𝙚 - {memberCount} ...\n𝙨𝙞𝙡𝙖 𝙘𝙡𝙞𝙘𝙠 ✅ 𝙮𝙜 𝙖𝙙𝙖 𝙙𝙞 𝙘𝙝𝙖𝙣𝙣𝙚𝙡 <#984412187999223879> 𝙪𝙣𝙩𝙪𝙠 𝙢𝙚𝙢𝙗𝙪𝙠𝙖 𝙨𝙚𝙢𝙪𝙖 𝙘𝙝𝙖𝙣𝙣𝙚𝙡 𝙙𝙞 𝙨𝙚𝙧𝙫𝙚𝙧 𝙞𝙣𝙞\n\n𝙞𝙢𝙪𝙩 • 𝙨𝙚𝙧𝙫𝙚𝙧",
+      "messageColor": "#fff",
+      "nameColor": "#fff",
+      "welcomeColor": "#fff"
+    }
+  },
+  "972328273885401168": {
+    "bc": "979457435905437767,984412187999223879,992287958583480422,986297560211787827,1010487550198169670,1026494189732646912,972328274413887530,1002905425525608489,996055065276207135,1028226330631880724,989457062729748541,983283512700452884,986298486553194548,983747210183323688,992281104000225300,976542348882358342,1010884921461584023,991304131090317333,990804532332212274,1026498880931635271,1026494209097748501,996380398596673666,985410706868404234,992280725850169354,1029694054696493087,984414921863364628",
+    "cc": [
+      {
+        "allow_vc": true,
+        "channel": "1039160413952147556",
+        "content": "> **Real** = [ ***!!*** ]\n> **LunaBot** = [ ***!play*** ]\n> **Probot** = [ ***#*** ]\n> **Chip** = [ ***/*** ]\n> **Chip 2** = [ ***/*** ]\n> **Chip 3** = [ ***/*** ]\n> **Chip Beta** = [ ***/*** ]\n> **HUGE** = [ ***/*** ]\n> **Muzox** = [ ***m1!*** ]\n> **Muzox 2** = [ ***m2!***] \n> **Muzox 3** = [ ***m3!*** ] \n> **Alex Music** = [ ***al.*** ]\n> **Bongo** = [ ***b.*** ]\n> **Diva** = [ ***d1.*** ]\n> **Diva 2** = [ ***d2.*** ]\n> **Diva 3** = [ ***d3.*** ]\n> **Diva 4** = [ ***d4.*** ]\n> **Diva 5** = [ ***d5.*** ]\n> **Diva 6** = [ ***d6.*** ]\n> **Diva Staging** = [ ***ds.*** ]\n> **Jockie Music** = [ ***jo.*** ]\n> **Jockie Music 2** = [ ***jo.*** ]\n> **Jockie Music 3** = [ ***jo.*** ]\n> **Jockie Music 4** = [ ***jo.*** ]\n> **KIRA** = [ ***k.*** ]\n> **Liberty Walk** = [ ***lb.*** ]\n> **Melody Music** = [ ***m1.*** ]\n> **Melody Music 2** = [ ***m2.*** ]\n> **FredBoat** = [ <@184405311681986560> ]\n> **Pancake** = [ ***p!play*** ]\n> **Vexera** = [ ***vexe.*** ]\n> **Betty** = [ ***/*** ]\n> **Hydra** = [ ***.*** ]\n> **zhora** = [ ***z.*** ]",
+        "embed": {
+          "description": "Pratinjau Embed"
+        },
+        "name": "musicprefix",
+        "trigger": "musicprefix",
+        "type": "content",
+        "wildcard": false
+      },
+      {
+        "allow_vc": false,
+        "channel": "976519830909878342",
+        "content": "Semoga pagi mu selalu indahh....",
+        "embed": {
+          "description": "Pratinjau Embed"
+        },
+        "name": "pagi",
+        "trigger": "pagi",
+        "type": "content",
+        "wildcard": false
+      },
+      {
+        "allow_vc": false,
+        "channel": "976519830909878342",
+        "content": "Malam kak... ingat pesan ku jangan begadang.. ;v",
+        "embed": {
+          "description": "Pratinjau Embed"
+        },
+        "name": "malam",
+        "trigger": "malam",
+        "type": "content",
+        "wildcard": false
+      },
+      {
+        "allow_vc": false,
+        "channel": "976519830909878342",
+        "content": "jangan lupa makan siang ya sayang... agar kamu semangat selalu ngejar aku.... wekkk ;*",
+        "embed": {
+          "description": "Pratinjau Embed"
+        },
+        "name": "siang",
+        "trigger": "siang",
+        "type": "content",
+        "wildcard": false
+      }
+    ],
+    "gb": {
+      "enable": true,
+      "m": {
+        "content": "yee jangan lupa balik lagi {member}",
+        "embeds": {
+          "description": "GOODBYE {MEMBER}\nsee u when i see u",
+          "type": "rich"
+        }
+      }
+    },
+    "prefix": "sh.",
+    "voice": {
+      "allow_link": "youtube.com,youtu.be,soundcloud.com,spotify.com,tenor.com",
+      "creator": "1039160236851855360",
+      "game_category": "1039151282654543892",
+      "game_creator": "1039151285418594334",
+      "game_interface": "1039151284189659166",
+      "temp": {},
+      "game": {}
+    },
+    "wc": {
+      "background": "https://media.discordapp.net/attachments/976848026532470865/1068518800988831815/concrete-1646788__480.png",
+      "channel": "972328274413887530",
+      "description": "have a good day",
+      "borderColor": null,
+      "enable": true,
+      "font": "Open_Sans.ttf",
+      "message": "Welcome to {server}.\nHai {member} , kamu member ke- {memberCount} yok bisa langsung ke channel rules dan lakukan verifikasi untuk bisa mengakses seluruh channel. muach",
+      "messageColor": "#020405",
+      "nameColor": "#020405",
+      "welcomeColor": "#020405"
+    }
+  }
+}

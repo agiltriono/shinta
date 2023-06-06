@@ -1,5 +1,4 @@
-const { database, embeds, getmsg, clear, remove, color } = require(".././../util/util"); 
-const db = database.ref("guild");
+const { embeds, getmsg, clear, remove, color } = require(".././../util/util"); 
 const { MessageActionRow, MessageSelectMenu, MessageButton } = require("discord.js");
 
 module.exports.help = {
@@ -131,7 +130,7 @@ Apex Legend M = 3
     }],
     components: [row1, row2, button]
   })
-  await db.child(msg.guild.id).child("voice").update({
+  await msg.client.db.update([msg.guild.id, "voice"], {
     game_category: cat.id,
     game_creator: vc.id,
     game_interface: tc.id

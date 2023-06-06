@@ -1,4 +1,4 @@
-const { embeds, getmsg, remove, color } = require("../util/util"); 
+const { color } = require("../util/util"); 
 const fs = require("fs");
 module.exports = async function help(msg, client, args, creator) {
   const permis = [
@@ -13,7 +13,7 @@ module.exports = async function help(msg, client, args, creator) {
       { name: "Setting", emoji:"⚙️"},
       { name: "Utility", emoji:"🛠"},
       { name: "Custom Command", emoji:"📝"},
-      ]
+    ]
     return list.find(e => e.name.toLowerCase() == emo.toLowerCase())
   }
   var list = msg.client.commands.map(cmd => cmd.help.category)

@@ -1,12 +1,11 @@
 const { MessageActionRow, Modal, TextInputComponent } = require("discord.js")
-const { database, ephemeral } = require(".././../util/util");
-const db = database.ref("guild")
+const { ephemeral } = require(".././../util/util");
 module.exports.execute = async function(interaction, client, userId) {
   if (interaction.customId.includes("welcomer_modal_")) {
     const guild = interaction.guild
     const field = interaction.fields
     const value = field.getTextInputValue('welcomer_modal_borderColor_input');
-    await db.child(guild.id).child("wc").update({borderColor: value})
+    await client.db.update([guild.id, "wc"], {borderColor: value})
     await interaction.reply(ephemeral("✅ Warna di simpan, Klik *test* untuk melihat pratinjau."))
   } else {
     const modal = new Modal()
