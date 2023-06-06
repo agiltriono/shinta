@@ -21,6 +21,7 @@ module.exports.execute = async function(interaction, client) {
   const guild = interaction.guild
   const member = guild.members.cache.get(interaction.user.id);
   const voiceChannel = member.voice.channel;
+  if (!voiceChannel) return interaction.reply(ephemeral("⚠️ **Please join voice terlebih dahulu.**"));
   const db = await client.db.get(guild.id)
   var vc = db.voice
   var game = vc.game[voiceChannel.id]
@@ -37,7 +38,6 @@ module.exports.execute = async function(interaction, client) {
     await interaction.guild.channels.resolve(voiceChannel.id).setRTCRegion(value)
     await interaction.update(Object.assign({}, ephemeral(`✅ Voice Region untuk **${voiceChannel.name}** di ubah ke ${regions.filter(c=>c.value === value).map(c=>`${c.emoji} **${c.label}**`)}.`), {components: [menu]}));
   } else {
-    if (!voiceChannel) return interaction.reply(ephemeral("⚠️ **Please join voice terlebih dahulu.**"));
     if(!game) return interaction.reply(ephemeral(`⛔ Kamu gak join di creator voice **${client.user.username}**!`));
     var owner = game.owner
     if (owner != interaction.user.id) return interaction.reply(ephemeral("⚠️ Akses ditolak! Kamu bukan owner!"));

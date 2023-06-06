@@ -9,6 +9,7 @@ module.exports.execute = async function(interaction, client) {
   const guild = interaction.guild
   const member = guild.members.cache.get(interaction.user.id);
   const voiceChannel = member.voice.channel;
+  if (!voiceChannel) return interaction.reply(ephemeral(`⚠️ <@${member.user.id}> **Join voice terlebih dahulu.**`)).then(m=> clear(m, 2000));
   const msg = interaction.message
   const db = await client.db.get(guild.id)
   const vc = db.voice
@@ -60,7 +61,6 @@ module.exports.execute = async function(interaction, client) {
       .setPlaceholder(`Mobile Game`)
       .addOptions(mGames))
   await msg.edit({components: [row1,row2,button]})
-  if (!voiceChannel) return msg.reply(embeds(`⚠️ <@${member.user.id}> **Join voice terlebih dahulu.**`)).then(m=> clear(m, 2000));
   const owner = game.child("owner").val()
   const param = interaction.values[0].split("_")
   const judul = param[0]
